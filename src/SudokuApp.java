@@ -21,11 +21,12 @@ public class SudokuApp {
                         row--;
                     else
                         for (int i = 0; i < line.length(); i++)
-                            if (Character.getNumericValue(line.charAt(i)) == -1 || !gameField.setDigit(Character.getNumericValue(line.charAt(i)), i, row))
+                            if (Character.getNumericValue(line.charAt(i)) == -1 || !gameField.setDigit(Character.getNumericValue(line.charAt(i)), i, row)) {
                                 row--;
+                                break;
+                            }
                 }
                 gameField.showField();
-
 
             //}
         } catch (Exception e) {
