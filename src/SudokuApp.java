@@ -1,4 +1,6 @@
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 
 public class SudokuApp {
@@ -9,7 +11,7 @@ public class SudokuApp {
         String exitCode = "exit";
         String line = "";
         try ( BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-
+        //try (BufferedReader reader = new BufferedReader(new FileReader(new File("sudoku.txt")))) {
             //while (!line.equals(exitCode)) {
 
                 //TODO: Написать приветствие
@@ -26,8 +28,9 @@ public class SudokuApp {
                                 break;
                             }
                 }
-                gameField.showField();
-
+                SudokuBF sbf = new SudokuBF();
+                sbf.build(gameField);
+                //sbf.build(gameField);
             //}
         } catch (Exception e) {
             e.printStackTrace();
