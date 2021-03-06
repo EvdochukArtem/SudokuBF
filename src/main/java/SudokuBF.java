@@ -5,10 +5,11 @@ public class SudokuBF {
     }
 
     private void reqInsert(Field field) {
-        int xx = 0;
-        int yy = 0;
+        int xx;
+        int yy;
+
         try {
-            Field tmpField = (Field)field.clone();
+            Field tmpField = field.clone();
             stop_search: {
                 for (int y = 0; y < Field.FIELD_LENGTH; y++)
                     for (int x = 0; x < Field.FIELD_LENGTH; x++)
@@ -18,18 +19,19 @@ public class SudokuBF {
                             break stop_search;
                         }
                 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                System.out.println(field.toString());
+                System.out.print(field.toString());
                 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 return;
             }
             for (int i = 1; i < 10; i++) {
                 if (tmpField.setDigit(i, xx, yy)) {
                     reqInsert(tmpField);
-                    tmpField = (Field)field.clone();
+                    tmpField = field.clone();
                 }
             }
-        } catch (CloneNotSupportedException ex) {
-            ex.printStackTrace();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace(); //Знаю что так делать не хорошо, слышал что лучше оборачивать в UnckeckedExceptions
+                                 //но хз в какой уместнее.
         }
     }
 }

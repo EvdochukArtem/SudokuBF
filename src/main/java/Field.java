@@ -4,9 +4,24 @@ import java.util.Set;
 
 //TODO: Замеить тип цифр судоку с int на enum
 
-public class Field {
+public class Field implements Cloneable{
 
     public static final int FIELD_LENGTH = 9;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Field field1 = (Field) o;
+        return Arrays.equals(field, field1.field);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(field);
+    }
+
+    private int [][] field;
 
     public Field() {
         field = new int [FIELD_LENGTH][FIELD_LENGTH];
@@ -31,28 +46,9 @@ public class Field {
         return this.field[y][x];
     }
 
-    public void showField() {
-        System.out.println("-----------------");
-        for (int y = 0; y < FIELD_LENGTH; y++) {
-            for (int x = 0; x < FIELD_LENGTH; x++) {
-                if (field[y][x] == -1)
-                    System.out.print("-");
-                else
-                    System.out.print(field[y][x]);
-                if ((x + 1) % 3 == 0)
-                    System.out.print("|");
-                else
-                    System.out.print(" ");
-            }
-            System.out.println();
-            if ((y + 1) % 3 == 0)
-                System.out.println("-----------------");
-        }
-    }
-
     private boolean CheckDigit(int digit, int x, int y) {
 
-        Set set = new HashSet();
+        Set<Integer> set = new HashSet<>();
 
         for (int i = 0; i < field[0].length; i++)
             set.add(field[y][i]);
@@ -75,9 +71,9 @@ public class Field {
         return true;
     }
 
-    public boolean CheckField() {
+    /*public boolean CheckField() {
 
-        Set set = new HashSet();
+        Set<Integer> set = new HashSet<>();
 
         for (int j = 0; j < field.length; j++) {
             for (int i = 0; i < field[0].length; i++)
@@ -100,31 +96,12 @@ public class Field {
                 set.clear();
             }
         }
-
-
-
         return true;
-    }
+    }*/
 
     @Override
-    public int hashCode() {
-        return this.toString().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-
-        if (!(obj instanceof Field))
-            return false;
-        if (this == null)
-            return this == obj;
-        Field tmp = (Field)obj;
-        return this.toString().equals(tmp.toString());
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-
+    protected Field clone() throws CloneNotSupportedException {
+        super.clone(); // хз зачем это но IDE подсказывает что так надо.
         Field clone = new Field();
         for (int i = 0; i < FIELD_LENGTH; i++)
             for (int j = 0; j < FIELD_LENGTH; j++)
@@ -135,25 +112,22 @@ public class Field {
 
     @Override
     public String toString() {
-        String out = "-----------------\n";
+        StringBuilder out = new StringBuilder("-----------------\n");
         for (int y = 0; y < FIELD_LENGTH; y++) {
             for (int x = 0; x < FIELD_LENGTH; x++) {
                 if (field[y][x] == -1)
-                    out += "-";
+                    out.append("-");
                 else
-                    out += field[y][x];
+                    out.append(field[y][x]);
                 if ((x + 1) % 3 == 0)
-                    out += "|";
+                    out.append("|");
                 else
-                    out += " ";
+                    out.append(" ");
             }
-            out += "\n";
+            out.append("\n");
             if ((y + 1) % 3 == 0)
-                out += "-----------------\n";
+                out.append("-----------------\n");
         }
-        return out;
+        return out.toString();
     }
-
-    private int field[][];
-
 }
