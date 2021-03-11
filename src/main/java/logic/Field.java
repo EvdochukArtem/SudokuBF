@@ -1,3 +1,8 @@
+package logic;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,20 +13,25 @@ public class Field implements Cloneable{
 
     public static final int FIELD_LENGTH = 9;
 
+    private final int [][] field;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Field field1 = (Field) o;
-        return Arrays.equals(field, field1.field);
+        for (int i = 0; i < FIELD_LENGTH; i++)
+            for(int j = 0; j < FIELD_LENGTH; j++)
+                if (getCellValue(i, j) != field1.getCellValue(i ,j))
+                    return false;
+        return true;
+        //return Arrays.equals(field, field1.field);
     }
 
     @Override
     public int hashCode() {
         return Arrays.hashCode(field);
     }
-
-    private int [][] field;
 
     public Field() {
         field = new int [FIELD_LENGTH][FIELD_LENGTH];
@@ -31,6 +41,8 @@ public class Field implements Cloneable{
 
     public boolean setDigit(int digit, int x, int y) {
         if (x < 0 || x >= FIELD_LENGTH || y < 0 || y >= FIELD_LENGTH)
+            return false;
+        if (digit < 0 || digit > 9)
             return false;
         if (field[y][x] != -1)
             return false;
@@ -129,5 +141,43 @@ public class Field implements Cloneable{
                 out.append("-----------------\n");
         }
         return out.toString();
+    }
+
+    public boolean readFieldFromConsole(BufferedReader console) throws IOException {
+
+        String line;
+        for (int row = 0; row < Field.FIELD_LENGTH; row++) {
+            System.out.println("Введи строчку #" + (row + 1));
+            line = console.readLine();
+            if ("ВЫХОД".equals(line)) {
+                return false;
+            }
+            if (line.length() != Field.FIELD_LENGTH)
+                row--;
+            else
+                for (int i = 0; i < line.length(); i++)
+                    if (Character.getNumericValue(line.charAt(i)) == -1 || !setDigit(Character.getNumericValue(line.charAt(i)), i, row)) {
+                        row--;
+                        break;
+                    }
+        }
+        return true;
+    }
+
+    public boolean readFieldFromFile(String filePath) throws IOException {
+
+        String line;
+        BufferedReader fileReader = new BufferedReader(new FileReader(filePath));
+        for (int row = 0; row < Field.FIELD_LENGTH; row++) {
+            line = fileReader.readLine();
+            if (line.length() != Field.FIELD_LENGTH)
+                return false;
+            else
+                for (int i = 0; i < line.length(); i++)
+                    if (Character.getNumericValue(line.charAt(i)) == -1 || !setDigit(Character.getNumericValue(line.charAt(i)), i, row)) {
+                        return false;
+                    }
+        }
+        return true;
     }
 }
