@@ -1,4 +1,4 @@
-package logic;
+package org.exmpl.domain;
 
 public class TestData {
 

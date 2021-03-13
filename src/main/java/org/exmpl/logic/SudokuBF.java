@@ -1,6 +1,8 @@
-package logic;
+package org.exmpl.logic;
 
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SudokuBF {
 
@@ -97,5 +99,15 @@ public class SudokuBF {
             e.printStackTrace(); //Знаю что так делать не хорошо, слышал что лучше оборачивать в UnckeckedExceptions
                                  //но хз в какой уместнее.
         }
+    }
+
+    private String convertFieldToDBString(String fieldString) {
+        StringBuilder result = new StringBuilder();
+        Pattern pattern = Pattern.compile("[0-9]");
+        Matcher m = pattern.matcher(fieldString);
+        if(m.find()){
+            result.append(m.group());
+        }
+        return result.toString();
     }
 }

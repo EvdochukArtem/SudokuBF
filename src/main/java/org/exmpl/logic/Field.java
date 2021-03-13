@@ -1,4 +1,4 @@
-package logic;
+package org.exmpl.logic;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -112,7 +112,7 @@ public class Field implements Cloneable{
     }*/
 
     @Override
-    protected Field clone() throws CloneNotSupportedException {
+    public Field clone() throws CloneNotSupportedException {
         super.clone(); // хз зачем это но IDE подсказывает что так надо.
         Field clone = new Field();
         for (int i = 0; i < FIELD_LENGTH; i++)

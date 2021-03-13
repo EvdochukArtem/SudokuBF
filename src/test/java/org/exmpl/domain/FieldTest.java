@@ -1,5 +1,6 @@
-package logic;
+package org.exmpl.domain;
 
+import org.exmpl.logic.Field;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
