@@ -22,7 +22,7 @@ public class SudokuBF {
                 switch (line) {
                     case "ВВОД": {
                         System.out.println("Вводи построчно поле для судоку. На месте пустой ячейки вводи 0");
-                        if (gameField.readFieldFromConsole(consoleReader))
+                        if (gameField.readFieldFromConsole())
                             reqInsert(gameField);
                         else
                             line = exitCode;
@@ -79,7 +79,7 @@ public class SudokuBF {
             stop_search: {
                 for (int y = 0; y < Field.FIELD_LENGTH; y++)
                     for (int x = 0; x < Field.FIELD_LENGTH; x++)
-                        if (field.getCellValue(x, y) == -1) {
+                        if (field.getDigit(x, y) == -1) {
                             xx = x;
                             yy = y;
                             break stop_search;

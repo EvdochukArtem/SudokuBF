@@ -51,7 +51,7 @@ class FieldTest {
         Field testField = new Field();
         try {
             testField.readFieldFromFile("sudoku.txt");
-            assertEquals(7, testField.getCellValue(1, 0));
+            assertEquals(7, testField.getDigit(1, 0));
         } catch (IOException e) {
             e.printStackTrace();
         }
