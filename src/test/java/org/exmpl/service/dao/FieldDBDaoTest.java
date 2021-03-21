@@ -3,6 +3,7 @@ package org.exmpl.service.dao;
 import org.exmpl.domain.FieldDB;
 import org.exmpl.logic.Field;
 import org.exmpl.service.db.DBInit;
+import org.exmpl.service.io.FieldIO;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +38,7 @@ class FieldDBDaoTest {
 
     private int getSudokuFieldsCount() throws SQLException {
         return source.makeStatement(statement -> {
-            ResultSet resultSet = statement.executeQuery("select count(*) from sudokufields");
+            ResultSet resultSet = statement.executeQuery("select count(*) from sudoku_fields");
             resultSet.next();
             return resultSet.getInt(1);
         });
@@ -45,8 +46,8 @@ class FieldDBDaoTest {
 
     @Test
     void saveFieldToDB() throws SQLException, IOException {
-        Field field = new Field();
-        field.readFieldFromFile("sudoku.txt");
+        Field field;
+        field = FieldIO.readFieldFromFile("sudoku.txt");
         FieldDB field1 = new FieldDB(1, field);
         FieldDB field2 = new FieldDB(2, field);
         dao.saveFieldToDB(field1);
@@ -57,7 +58,7 @@ class FieldDBDaoTest {
     @Test
     void getFieldFromDB() throws SQLException, IOException  {
         Field field = new Field();
-        field.readFieldFromFile("sudoku.txt");
+        field = FieldIO.readFieldFromFile("sudoku.txt");
         FieldDB field1 = new FieldDB(1, field);
         dao.saveFieldToDB(field1);
         FieldDB loadedField = dao.getFieldFromDB(1);

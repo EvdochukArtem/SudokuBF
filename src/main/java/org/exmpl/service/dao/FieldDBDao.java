@@ -1,7 +1,6 @@
 package org.exmpl.service.dao;
 
 import org.exmpl.domain.FieldDB;
-import org.exmpl.logic.Field;
 import org.exmpl.service.db.JdbcService;
 
 import lombok.AllArgsConstructor;

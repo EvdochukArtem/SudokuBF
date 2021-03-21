@@ -1,38 +1,16 @@
 package org.exmpl.logic;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 //TODO: Замеить тип цифр судоку с int на enum
 
-public class Field implements Cloneable{
+public class Field implements Cloneable {
 
     public static final int FIELD_LENGTH = 9;
 
     private final int [][] field;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Field field1 = (Field) o;
-        for (int i = 0; i < FIELD_LENGTH; i++)
-            for(int j = 0; j < FIELD_LENGTH; j++)
-                if (getDigit(i, j) != field1.getDigit(i ,j))
-                    return false;
-        return true;
-        //return Arrays.equals(field, field1.field);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(field);
-    }
 
     public Field() {
         field = new int [FIELD_LENGTH][FIELD_LENGTH];
@@ -114,7 +92,7 @@ public class Field implements Cloneable{
 
     @Override
     public Field clone() throws CloneNotSupportedException {
-        super.clone(); // хз зачем это но IDE подсказывает что так надо.
+        super.clone();
         Field clone = new Field();
         for (int i = 0; i < FIELD_LENGTH; i++)
             for (int j = 0; j < FIELD_LENGTH; j++)
@@ -144,54 +122,20 @@ public class Field implements Cloneable{
         return out.toString();
     }
 
-    public boolean readFieldFromConsole() throws IOException {
-        String line;
-        try (BufferedReader console = new BufferedReader(new InputStreamReader(System.in))) {
-            for (int row = 0; row < Field.FIELD_LENGTH; row++) {
-                System.out.println("Введи строчку #" + (row + 1));
-                line = console.readLine();
-                if ("ВЫХОД".equals(line)) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Field field1 = (Field) o;
+        for (int i = 0; i < FIELD_LENGTH; i++)
+            for(int j = 0; j < FIELD_LENGTH; j++)
+                if (getDigit(i, j) != field1.getDigit(i ,j))
                     return false;
-                }
-                if (line.length() != Field.FIELD_LENGTH) {
-                    System.out.println("Число цифр не равно 9");
-                    row--;
-                }
-                else
-                    for (int i = 0; i < line.length(); i++) {
-                        if (Character.getNumericValue(line.charAt(i)) == -1) {
-                            System.out.println("Строка содержит недопустимые знаки");
-                            row--;
-                            break;
-                        }
-                        if (!setDigit(Character.getNumericValue(line.charAt(i)), i, row)) {
-                            System.out.println("Цифра " + line.charAt(i)
-                                    + " не может занимать указанное место в строке по правилам судоку");
-                            row--;
-                            break;
-                        }
-                    }
-            }
-            return true;
-        } catch (IOException e) {
-            throw e;
-        }
+        return true;
     }
 
-    public boolean readFieldFromFile(String filePath) throws IOException {
-
-        String line;
-        BufferedReader fileReader = new BufferedReader(new FileReader(filePath));
-        for (int row = 0; row < Field.FIELD_LENGTH; row++) {
-            line = fileReader.readLine();
-            if (line.length() != Field.FIELD_LENGTH)
-                return false;
-            else
-                for (int i = 0; i < line.length(); i++)
-                    if (Character.getNumericValue(line.charAt(i)) == -1 || !setDigit(Character.getNumericValue(line.charAt(i)), i, row)) {
-                        return false;
-                    }
-        }
-        return true;
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(field);
     }
 }

@@ -1,6 +1,7 @@
 package org.exmpl.domain;
 
 import org.exmpl.logic.Field;
+import org.exmpl.service.io.FieldIO;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ class FieldTest {
     void readFieldFromFile() {
         Field testField = new Field();
         try {
-            testField.readFieldFromFile("sudoku.txt");
+            testField = FieldIO.readFieldFromFile("sudoku.txt");
             assertEquals(TestData.SUDOKU_INCOMPLETE, testField.toString());
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +51,7 @@ class FieldTest {
     void getCellValue() {
         Field testField = new Field();
         try {
-            testField.readFieldFromFile("sudoku.txt");
+            testField = FieldIO.readFieldFromFile("sudoku.txt");
             assertEquals(7, testField.getDigit(1, 0));
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,7 +62,7 @@ class FieldTest {
     void testClone() {
         Field testField = new Field();
         try {
-            testField.readFieldFromFile("sudoku.txt");
+            testField = FieldIO.readFieldFromFile("sudoku.txt");
             Field clonedField = testField.clone();
             assertEquals(testField, clonedField);
         } catch (IOException | CloneNotSupportedException e) {

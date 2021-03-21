@@ -1,14 +1,14 @@
 package org.exmpl.logic;
 
+import org.exmpl.service.io.FieldIO;
+
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SudokuBF {
 
     public void startSudokuBF() {
 
-        Field gameField = new Field();
+        Field gameField;
         final String exitCode = "exit";
         String line = "";
         System.out.println("***Sudoku BruteForce***");
@@ -22,10 +22,8 @@ public class SudokuBF {
                 switch (line) {
                     case "ВВОД": {
                         System.out.println("Вводи построчно поле для судоку. На месте пустой ячейки вводи 0");
-                        if (gameField.readFieldFromConsole())
+                        if ((gameField = FieldIO.readFieldFromConsole(consoleReader)) != null)
                             reqInsert(gameField);
-                        else
-                            line = exitCode;
                     }
                     break;
                     case "FILE":
@@ -35,15 +33,14 @@ public class SudokuBF {
                                     "Пример: C:/folder/sudoku.txt\n" +
                                     "В файле должно быть поле судоку в виде набора строк с цифрами\n" +
                                     "Каждая строка должна соответствовать строке поля судоку\n" +
-                                    "На месте пустой ячейки вводи 0" +
+                                    "На месте пустой ячейки вводи 0\n" +
                                     "Для выхода из программы напиши ВЫХОД\n");
                             String tmp = consoleReader.readLine();
                             if ("ВЫХОД".equals(tmp)) {
-                                line = exitCode;
                                 break;
                             }
                             try {
-                                if (gameField.readFieldFromFile(tmp)) {
+                                if ((gameField = FieldIO.readFieldFromFile(tmp)) != null) {
                                     reqInsert(gameField);
                                     break;
                                 }
@@ -99,15 +96,5 @@ public class SudokuBF {
             e.printStackTrace(); //Знаю что так делать не хорошо, слышал что лучше оборачивать в UnckeckedExceptions
                                  //но хз в какой уместнее.
         }
-    }
-
-    private String convertFieldToDBString(String fieldString) {
-        StringBuilder result = new StringBuilder();
-        Pattern pattern = Pattern.compile("[0-9]");
-        Matcher m = pattern.matcher(fieldString);
-        if(m.find()){
-            result.append(m.group());
-        }
-        return result.toString();
     }
 }
