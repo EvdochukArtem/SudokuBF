@@ -1,10 +1,9 @@
-package org.exmpl.domain;
+package org.exmpl;
 
 public class TestData {
 
-    //public final static Field SUDOKU_EMPTY = new Field();
-
-    public final static String SUDOKU_INCOMPLETE = "-----------------\n" +
+    public final static String SUDOKU_INCOMPLETE =
+            "-----------------\n" +
             "- 7 9|8 - 3|- - -|\n" +
             "- - -|6 2 -|- 9 -|\n" +
             "4 - 1|- - 9|8 3 -|\n" +

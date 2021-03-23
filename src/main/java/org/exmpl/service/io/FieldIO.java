@@ -53,12 +53,12 @@ public class FieldIO {
             else
                 for (int i = 0; i < line.length(); i++) {
                     if (Character.getNumericValue(line.charAt(i)) == -1) {
-                        System.out.println("Строка " + i + " содержит недопустимые знаки");
+                        System.out.println("Строка " + line + " содержит недопустимые знаки");
                         return null;
                     }
                     if (!field.setDigit(Character.getNumericValue(line.charAt(i)), i, row)) {
                         System.out.println("Цифра " + line.charAt(i)
-                                + " не может занимать указанное место в строке " + i + "  по правилам судоку");
+                                + " не может занимать указанное место в строке " + line + "  по правилам судоку");
                         return null;
                     }
                 }

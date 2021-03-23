@@ -1,9 +1,12 @@
 package org.exmpl.domain;
 
+import org.exmpl.TestData;
 import org.exmpl.logic.Field;
 import org.exmpl.service.io.FieldIO;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 
@@ -11,16 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FieldTest {
 
-    @Test
-    void readFieldFromFile() {
-        Field testField = new Field();
-        try {
-            testField = FieldIO.readFieldFromFile("sudoku.txt");
-            assertEquals(TestData.SUDOKU_INCOMPLETE, testField.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    @Rule
+    public ExpectedException thrown= ExpectedException.none();
 
     @Test
     void setDigitCorrect() {
@@ -48,26 +43,23 @@ class FieldTest {
     }
 
     @Test
-    void getCellValue() {
-        Field testField = new Field();
-        try {
-            testField = FieldIO.readFieldFromFile("sudoku.txt");
-            assertEquals(7, testField.getDigit(1, 0));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    void getCellValue() throws IOException {
+        Field testField;
+        String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
+        path = path.replace("file:/", "");
+        testField = FieldIO.readFieldFromFile(path);
+        assertEquals(7, testField.getDigit(1, 0));
+
     }
 
     @Test
-    void testClone() {
-        Field testField = new Field();
-        try {
-            testField = FieldIO.readFieldFromFile("sudoku.txt");
-            Field clonedField = testField.clone();
-            assertEquals(testField, clonedField);
-        } catch (IOException | CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+    void testClone() throws  CloneNotSupportedException, IOException{
+        Field testField;
+        String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
+        path = path.replace("file:/", "");
+        testField = FieldIO.readFieldFromFile(path);
+        Field clonedField = testField.clone();
+        assertEquals(testField, clonedField);
     }
 
     @Ignore

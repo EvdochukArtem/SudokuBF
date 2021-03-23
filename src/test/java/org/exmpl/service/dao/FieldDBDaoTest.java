@@ -1,5 +1,6 @@
 package org.exmpl.service.dao;
 
+import org.exmpl.TestData;
 import org.exmpl.domain.FieldDB;
 import org.exmpl.logic.Field;
 import org.exmpl.service.db.DBInit;
@@ -47,7 +48,9 @@ class FieldDBDaoTest {
     @Test
     void saveFieldToDB() throws SQLException, IOException {
         Field field;
-        field = FieldIO.readFieldFromFile("sudoku.txt");
+        String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
+        path = path.replace("file:/", "");
+        field = FieldIO.readFieldFromFile(path);
         FieldDB field1 = new FieldDB(1, field);
         FieldDB field2 = new FieldDB(2, field);
         dao.saveFieldToDB(field1);
@@ -57,8 +60,10 @@ class FieldDBDaoTest {
 
     @Test
     void getFieldFromDB() throws SQLException, IOException  {
-        Field field = new Field();
-        field = FieldIO.readFieldFromFile("sudoku.txt");
+        Field field;
+        String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
+        path = path.replace("file:/", "");
+        field = FieldIO.readFieldFromFile(path);
         FieldDB field1 = new FieldDB(1, field);
         dao.saveFieldToDB(field1);
         FieldDB loadedField = dao.getFieldFromDB(1);
