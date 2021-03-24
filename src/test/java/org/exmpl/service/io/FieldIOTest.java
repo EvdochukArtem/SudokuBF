@@ -9,8 +9,10 @@ import org.mockito.Mockito;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.URLDecoder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 class FieldIOTest {
@@ -22,6 +24,7 @@ class FieldIOTest {
     void readFieldFromFileCorrect() throws IOException {
         String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
         path = path.replace("file:/", "");
+        path = URLDecoder.decode(path, "utf-8");
         Field field = FieldIO.readFieldFromFile(path);
         assertEquals(TestData.SUDOKU_INCOMPLETE, field.toString());
     }
@@ -30,6 +33,7 @@ class FieldIOTest {
     void readFieldFromFileIncorrect() throws IOException {
         String path = TestData.class.getResource("sudoku_complete.txt").toExternalForm();
         path = path.replace("file:/", "");
+        path = URLDecoder.decode(path, "utf-8");
         Field field = FieldIO.readFieldFromFile(path);
         assertNotEquals(field.toString(), TestData.SUDOKU_INCOMPLETE);
     }

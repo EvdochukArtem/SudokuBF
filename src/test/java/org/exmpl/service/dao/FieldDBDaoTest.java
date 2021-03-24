@@ -4,16 +4,16 @@ import org.exmpl.TestData;
 import org.exmpl.domain.FieldDB;
 import org.exmpl.logic.Field;
 import org.exmpl.service.db.DBInit;
+import org.exmpl.service.db.JdbcService;
 import org.exmpl.service.io.FieldIO;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.exmpl.service.db.JdbcService;
 
 import javax.sql.DataSource;
-
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -50,6 +50,7 @@ class FieldDBDaoTest {
         Field field;
         String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
         path = path.replace("file:/", "");
+        path = URLDecoder.decode(path, "utf-8");
         field = FieldIO.readFieldFromFile(path);
         FieldDB field1 = new FieldDB(1, field);
         FieldDB field2 = new FieldDB(2, field);
@@ -63,6 +64,7 @@ class FieldDBDaoTest {
         Field field;
         String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
         path = path.replace("file:/", "");
+        path = URLDecoder.decode(path, "utf-8");
         field = FieldIO.readFieldFromFile(path);
         FieldDB field1 = new FieldDB(1, field);
         dao.saveFieldToDB(field1);

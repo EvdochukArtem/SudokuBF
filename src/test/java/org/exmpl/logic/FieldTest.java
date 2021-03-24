@@ -1,7 +1,6 @@
-package org.exmpl.domain;
+package org.exmpl.logic;
 
 import org.exmpl.TestData;
-import org.exmpl.logic.Field;
 import org.exmpl.service.io.FieldIO;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,16 +47,17 @@ class FieldTest {
         Field testField;
         String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
         path = path.replace("file:/", "");
+        path = URLDecoder.decode(path, "utf-8");
         testField = FieldIO.readFieldFromFile(path);
         assertEquals(7, testField.getDigit(1, 0));
-
     }
 
     @Test
     void testClone() throws  CloneNotSupportedException, IOException{
         Field testField;
-        String path = TestData.class.getResource("sudoku_incomplete.txt").toExternalForm();
+        String path = TestData.class.getResource("sudoku_incomplete.txt").toString();
         path = path.replace("file:/", "");
+        path = URLDecoder.decode(path, "utf-8");
         testField = FieldIO.readFieldFromFile(path);
         Field clonedField = testField.clone();
         assertEquals(testField, clonedField);

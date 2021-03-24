@@ -1,8 +1,9 @@
 package org.exmpl.domain;
 
-import org.exmpl.logic.Field;
 import lombok.Data;
+import org.exmpl.logic.Field;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,7 @@ public class FieldDB {
     private final String field;
 
     public FieldDB(int id, Field field) {
+        Objects.requireNonNull(field);
         this.id = id;
         this.field = convertFieldToDBString(field.toString());
     }
