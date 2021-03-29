@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku Brute Force</title>
+    <style>
+    table {
+    border-collapse: collapse;
+    padding: 30px;
+    font-family: Arial;
+    font-size: 20px;
+    }
+    colgroup, tbody {
+    border: solid medium;
+    }
+    td {
+    border: solid thin;
+    height: 3em;
+    width: 3em;
+    text-align: center;
+    padding: 0;
+    }
+    input[type="text"] {
+        font-family: Arial;
+        font-size: 16px;
+        text-align:center;
+        height: 3em;
+        width: 3em;
+        border: 0;
+    }
+    button {
+        margin-left: 50px;
+        margin-right: 100px;
+        font-family: Arial;
+        font-size: 14px;
+        text-align:center;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    </style>
+
+</head>
+
+<body>
+
+<div class="sudoku_field">
+    <table>
+        <caption>Sudoku Field</caption>
+        <colgroup><col><col><col>
+        <colgroup><col><col><col>
+        <colgroup><col><col><col>
+        <tbody>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig00"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig01"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig02"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig03"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig04"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig05"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig06"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig07"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig08"></td>
+        </tr>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig10"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig11"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig12"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig13"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig14"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig15"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig16"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig17"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig18"></td>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig30"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig31"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig32"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig33"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig34"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig35"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig36"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig37"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig38"></td>
+        <tbody>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig40"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig41"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig42"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig43"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig44"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig45"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig46"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig47"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig48"></td>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig50"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig51"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig52"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig53"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig54"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig55"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig56"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig57"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig58"></td>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig60"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig61"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig62"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig63"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig64"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig65"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig66"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig67"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig68"></td>
+        <tbody>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig70"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig71"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig72"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig73"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig74"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig75"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig76"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig77"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig78"></td>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig80"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig81"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig82"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig83"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig84"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig85"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig86"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig87"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig88"></td>
+        <tr>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig90"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig91"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig92"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig93"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig94"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig95"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig96"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig97"></td>
+            <td><input type="text" maxlength = 1 placeholder="-" id="fig98"></td>
+    </table>
+    <br>
+    <button onclick="send_to_solve()">Solve Sudoku!</button>
+    <button onclick="fill_test_field()">Download test field</button>
+
+</div>
+<script>
+async function send_to_solve() {
+    var field2solve = '';
+    var nInputs = document.getElementsByTagName("input").length;
+    for (var i = 0; i < nInputs; i++) {
+        var digit = document.getElementsByTagName("input")[i].value;
+        digit = (digit == '') ? 0 : digit;
+        field2solve += digit;
+    }
+    const url = 'http://localhost:8080/solve';
+    const data = { field: field2solve };
+    try {
+      const response = await fetch(url, {
+        method: 'POST', // или 'PUT'
+        body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const json = await response.json();
+      console.log('Успех:', JSON.stringify(json));
+    } catch (error) {
+      console.error('Ошибка:', error);
+    }
+
+}
+
+function fill_test_field() {
+    var sample = '079803000000620090401009830040370020908065740100040060803207410710036200000001300';
+    var nInputs = document.getElementsByTagName("input").length;
+    var j = 0;
+    for (var i = 0; i < nInputs; i++) {
+        document.getElementsByTagName("input")[i].value = sample[j];
+        j++;
+    }
+}
+</script>
+</body>
+
+</html>
