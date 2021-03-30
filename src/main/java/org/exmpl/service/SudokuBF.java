@@ -3,16 +3,19 @@ package org.exmpl.service;
 import org.exmpl.domain.Field;
 import org.exmpl.exceptions.FieldCreationFailure;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class SudokuBF {
 
-    private final List<Field> solvedFields = new ArrayList<>();
+    private List<Field> solvedFields;
 
     public List<String> solveSudoku(String fieldToSolve) throws FieldCreationFailure {
+        solvedFields = new ArrayList<>();
         Field field = getFieldFromJSON(fieldToSolve);
         reqInsert(field);
         return solvedFields.stream().map(Field::toJSONString).collect(Collectors.toList());

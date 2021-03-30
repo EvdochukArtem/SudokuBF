@@ -6,8 +6,6 @@ import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FieldTest {
@@ -41,14 +39,14 @@ class FieldTest {
     }
 
     @Test
-    void getCellValue() throws IOException {
+    void getCellValue() {
         Field testField;
         testField = TestData.FIELD_INCOMPLETE;
         assertEquals(7, testField.getDigit(1, 0));
     }
 
     @Test
-    void testClone() throws  CloneNotSupportedException, IOException{
+    void testClone() throws  CloneNotSupportedException {
         Field testField;
         testField = TestData.FIELD_INCOMPLETE;
         Field clonedField = testField.clone();

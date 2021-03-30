@@ -3,8 +3,8 @@ package org.exmpl.controller;
 import lombok.RequiredArgsConstructor;
 import org.exmpl.exceptions.FieldCreationFailure;
 import org.exmpl.service.SudokuBF;
-import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,21 +17,19 @@ import java.util.Objects;
 public class RESTController {
 
     public static final String URI = "/solve";
+    private final SudokuBF sbf;
 
     @PostMapping
-    public String solveSudokuField(HttpEntity<byte[]> requestEntity) {
-        Objects.requireNonNull(requestEntity);
-        Objects.requireNonNull(requestEntity.getBody());
-        String jsonFieldToSolve = new String(requestEntity.getBody());
-        SudokuBF sbf = new SudokuBF();
+    public String solveSudokuField(@RequestBody String field) {
+        Objects.requireNonNull(field);
         try {
-            List<String> solutions = sbf.solveSudoku(jsonFieldToSolve);
+            List<String> solutions = sbf.solveSudoku(field);
             if (solutions.size() > 0)
                 return solutions.get(0);
             else
-                return "Sudoku is unsolvable";
+                return "{ \"error\" : \"Sudoku is unsolvable\" }";
         } catch (FieldCreationFailure exception) {
-            return exception.getMessage();
+            return "{ \"error\" : \"" + exception.getMessage() + "\" }";
         }
     }
 }

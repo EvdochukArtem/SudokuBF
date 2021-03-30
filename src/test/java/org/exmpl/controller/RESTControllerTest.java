@@ -2,7 +2,6 @@ package org.exmpl.controller;
 
 import org.exmpl.TestData;
 import org.exmpl.service.SudokuBF;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +28,14 @@ class RESTControllerTest {
     @MockBean
     SudokuBF sbf;
 
-    @Ignore
     @Test
     void solveSudokuField() throws Exception {
         String inputJSON = TestData.SUDOKU_INCOMPLETE_JSON;
         ResultActions actions = mockMvc.perform(
-            MockMvcRequestBuilders.post(RESTController.URI)
-                .param("field2send", inputJSON)
-                .contentType(MediaType.APPLICATION_JSON)
+            MockMvcRequestBuilders
+                    .post(RESTController.URI)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(inputJSON)
         ).andExpect(status().isOk());
         Mockito.verify(sbf, Mockito.times(1)).solveSudoku(inputJSON);
     }
