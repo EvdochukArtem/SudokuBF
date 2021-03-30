@@ -1,7 +1,11 @@
 package org.exmpl.domain;
 
+import org.exmpl.exceptions.FieldCreationFailure;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 //TODO: Замеить тип цифр судоку с int на enum
@@ -18,6 +22,22 @@ public class Field implements Cloneable {
             Arrays.fill(field[i], -1);
     }
 
+    public static Field getFieldFromJSON(String fieldJSON) throws FieldCreationFailure {
+        Objects.requireNonNull(fieldJSON);
+        JSONObject json = new JSONObject(fieldJSON);
+        String fieldString = json.getString("field");
+        if (fieldString.length() < Field.FIELD_LENGTH * Field.FIELD_LENGTH)
+            throw new FieldCreationFailure();
+        Field field = new Field();
+        for (int i = 0; i < fieldString.length(); i++) {
+            int x = i % Field.FIELD_LENGTH;
+            int y = i / Field.FIELD_LENGTH;
+            int digit = Character.getNumericValue(fieldString.charAt(i));
+            if (!field.setDigit(digit, x, y))
+                throw new FieldCreationFailure(fieldString.charAt(i));
+        }
+        return field;
+    }
     public boolean setDigit(int digit, int x, int y) {
         if (x < 0 || x >= FIELD_LENGTH || y < 0 || y >= FIELD_LENGTH)
             return false;
@@ -73,6 +93,7 @@ public class Field implements Cloneable {
         return clone;
     }
 
+    //TODO: Rewrite
     @Override
     public String toString() {
         StringBuilder out = new StringBuilder("-----------------\n");
@@ -99,7 +120,10 @@ public class Field implements Cloneable {
         out.append("{ \"field\" : \"");
         for (int y = 0; y < FIELD_LENGTH; y++)
             for (int x = 0; x < FIELD_LENGTH; x++)
-                out.append(field[y][x]);
+                if (field[y][x] == -1)
+                    out.append(0);
+                else
+                    out.append(field[y][x]);
         out.append("\" }");
         return out.toString();
     }
