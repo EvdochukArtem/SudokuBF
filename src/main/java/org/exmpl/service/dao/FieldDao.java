@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Repository
@@ -16,6 +17,16 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FieldDao {
     private final JdbcTemplate jdbcTemplate;
 
+    //TODO: Need to ignore while testing
+    @PostConstruct
+    private void fillDB() throws FieldSavingFailure {
+        String [] fields = {"004020803080931400001054072360000024000082000702346500000410230000068709059070600",
+                "073504000008070000954081020036000004897603500001290000409015207715002009080009140",
+                "030021007800000519017050026001760000300090640096800200704006052609087004053240060",
+                "079803000000620090401009830040370020908065740100040060803207410710036200000001300"};
+        for (String field : fields)
+            saveField(field);
+    }
 
     private int getFieldsCount() {
         return jdbcTemplate.query("SELECT COUNT(*) FROM sudoku_fields",
@@ -36,7 +47,6 @@ public class FieldDao {
                 rs -> {
                     rs.next();
                     Field request = null;
-                    String s = rs.getString(1);
                     try {
                         request = Field.getFieldFromJSON(
                                 "{ \"field\" : \"" +
@@ -49,11 +59,11 @@ public class FieldDao {
                 });
     }
 
-    public void saveField(Field field) throws FieldSavingFailure {
+    public void saveField(String fieldString) throws FieldSavingFailure {
         int n = getFieldsCount() + 1;
-        String fieldString = field.toJSONString().replaceAll("\\D","");
         if (fieldString.length() != 81)
             throw new FieldSavingFailure();
+        //TODO: Need to exclude not unique fields
         jdbcTemplate.execute(
                 "INSERT INTO sudoku_fields(id, field) values (?, ?)",
                 (PreparedStatementCallback<?>) ps -> {

@@ -93,24 +93,16 @@ public class Field implements Cloneable {
         return clone;
     }
 
-    //TODO: Rewrite
     @Override
     public String toString() {
-        StringBuilder out = new StringBuilder("-----------------\n");
+        StringBuilder out = new StringBuilder();
         for (int y = 0; y < FIELD_LENGTH; y++) {
             for (int x = 0; x < FIELD_LENGTH; x++) {
                 if (field[y][x] == -1)
-                    out.append("-");
+                    out.append("0");
                 else
                     out.append(field[y][x]);
-                if ((x + 1) % 3 == 0)
-                    out.append("|");
-                else
-                    out.append(" ");
             }
-            out.append("\n");
-            if ((y + 1) % 3 == 0)
-                out.append("-----------------\n");
         }
         return out.toString();
     }

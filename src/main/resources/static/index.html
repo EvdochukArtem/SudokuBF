@@ -30,7 +30,6 @@
         border: 0;
     }
     button {
-        margin-left: 50px;
         margin-right: 50px;
         font-family: Arial;
         font-size: 14px;
@@ -149,7 +148,7 @@
     <br>
     <button onclick="send_to_solve()">Solve Sudoku!</button>
     <button onclick="clear_field()">Clear field</button>
-    <button onclick="fill_test_field()">Download test field</button>
+    <button onclick="get_random_field()">Random field</button>
 
 </div>
 <script>
@@ -181,11 +180,10 @@ async function send_to_solve() {
             document.getElementsByTagName("input")[i].value = solution[j];
             j++;
         }
-    }
+      }
     } catch (error) {
       console.error('Ошибка:', error);
     }
-
 }
 
 function clear_field() {
@@ -195,13 +193,25 @@ function clear_field() {
     }
 }
 
-function fill_test_field() {
-    var sample = '079803000000620090401009830040370020908065740100040060803207410710036200000001300';//'516849732307605000809700065135060907472591006968370050253186074684207500791050608';
-    var nInputs = document.getElementsByTagName("input").length;
-    var j = 0;
-    for (var i = 0; i < nInputs; i++) {
-        document.getElementsByTagName("input")[i].value = sample[j];
-        j++;
+async function get_random_field() {
+
+    const url = 'http://localhost:8080/solve';
+    try {
+      const response = await fetch(url, { method: 'GET' });
+      const json = await response.json();
+      if (json.error) {
+        alert(json.error);
+      } else {
+        const solution = json.field;
+        var j = 0;
+        var nInputs = document.getElementsByTagName("input").length;
+        for (var i = 0; i < nInputs; i++) {
+            document.getElementsByTagName("input")[i].value = solution[j];
+            j++;
+        }
+      }
+    } catch (error) {
+      console.error('Ошибка:', error);
     }
 }
 </script>

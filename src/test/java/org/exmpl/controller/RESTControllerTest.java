@@ -2,6 +2,7 @@ package org.exmpl.controller;
 
 import org.exmpl.TestData;
 import org.exmpl.service.SudokuBF;
+import org.exmpl.service.dao.FieldDao;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ class RESTControllerTest {
     @MockBean
     SudokuBF sbf;
 
+    @MockBean
+    FieldDao dao;
+
     @Test
     void solveSudokuField() throws Exception {
         String inputJSON = TestData.SUDOKU_INCOMPLETE_JSON;
@@ -39,4 +43,12 @@ class RESTControllerTest {
         ).andExpect(status().isOk());
         Mockito.verify(sbf, Mockito.times(1)).solveSudoku(inputJSON);
     }
+
+    /*@Test
+    void getRandomSudokuField() throws Exception {
+        ResultActions actions = mockMvc.perform(
+                MockMvcRequestBuilders.get(RESTController.URI)
+        ).andExpect(status().isOk());
+        Mockito.verify(dao, Mockito.times(1)).getRandomField();
+    }*/
 }
