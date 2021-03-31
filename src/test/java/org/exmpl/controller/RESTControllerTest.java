@@ -44,11 +44,12 @@ class RESTControllerTest {
         Mockito.verify(sbf, Mockito.times(1)).solveSudoku(inputJSON);
     }
 
-    /*@Test
+    @Test
     void getRandomSudokuField() throws Exception {
+        Mockito.when(dao.getRandomField()).thenReturn(TestData.FIELD_INCOMPLETE);
         ResultActions actions = mockMvc.perform(
                 MockMvcRequestBuilders.get(RESTController.URI)
         ).andExpect(status().isOk());
         Mockito.verify(dao, Mockito.times(1)).getRandomField();
-    }*/
+    }
 }
