@@ -107,19 +107,6 @@ public class Field implements Cloneable {
         return out.toString();
     }
 
-    public String toJSONString() {
-        StringBuilder out = new StringBuilder();
-        out.append("{ \"field\" : \"");
-        for (int y = 0; y < FIELD_LENGTH; y++)
-            for (int x = 0; x < FIELD_LENGTH; x++)
-                if (field[y][x] == -1)
-                    out.append(0);
-                else
-                    out.append(field[y][x]);
-        out.append("\" }");
-        return out.toString();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

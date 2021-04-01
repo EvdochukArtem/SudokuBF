@@ -17,7 +17,7 @@ public class SudokuBF {
         solvedFields = new ArrayList<>();
         Field field = Field.getFieldFromJSON(fieldToSolve);
         reqInsert(field);
-        return solvedFields.stream().map(Field::toJSONString).collect(Collectors.toList());
+        return solvedFields.stream().map(Field::toString).collect(Collectors.toList());
     }
 
     private void reqInsert(Field field) {

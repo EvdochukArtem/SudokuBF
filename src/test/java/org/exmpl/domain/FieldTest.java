@@ -54,12 +54,6 @@ class FieldTest {
     }
 
     @Test
-    void toJSONString() {
-        Field field = TestData.FIELD_INCOMPLETE;
-        assertEquals(field.toJSONString(), TestData.SUDOKU_INCOMPLETE_JSON);
-    }
-
-    @Test
     void testToString() {
         Field field = TestData.FIELD_INCOMPLETE;
         assertEquals(field.toString(), TestData.SUDOKU_INCOMPLETE_STRING);

@@ -6,6 +6,7 @@ import org.exmpl.exceptions.FieldDBExtractionFailure;
 import org.exmpl.exceptions.FieldSavingFailure;
 import org.exmpl.service.SudokuBF;
 import org.exmpl.service.dao.FieldDao;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,21 +25,23 @@ public class RESTController {
     @PostMapping
     public String solveSudokuField(@RequestBody String field) throws FieldSavingFailure {
         Objects.requireNonNull(field);
+        String f = "field";
+        String e = "error";
         try {
             List<String> solutions = sbf.solveSudoku(field);
             if (solutions.size() > 0) {
-                fieldDao.saveField(field.replaceAll("\\D","")); //TODO: Need to warn user about saving his data
-                return solutions.get(0);
+                fieldDao.saveField(new JSONObject(field).getString(f)); //TODO: Need to warn user about saving his data
+                return new JSONObject().put(f, solutions.get(0)).toString();
             }
             else
-                return "{ \"error\" : \"Sudoku is unsolvable\" }";
+                return new JSONObject().put(e, "Sudoku is unsolvable").toString();
         } catch (FieldCreationFailure exception) {
-            return "{ \"error\" : \"" + exception.getMessage() + "\" }";
+            return new JSONObject().put( e, exception.getMessage()).toString();
         }
     }
 
     @GetMapping
     public String getRandomSudokuField() throws FieldDBExtractionFailure {
-        return fieldDao.getRandomField().toJSONString();
+        return new JSONObject().put("field", fieldDao.getRandomField().toString()).toString();
     }
 }

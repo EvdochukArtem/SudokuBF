@@ -22,7 +22,7 @@ class SudokuBFTest {
         List<String> solutions;
         solutions = sbf.solveSudoku(incomeJSON);
         assertEquals(1, solutions.size());
-        assertEquals(TestData.SUDOKU_COMPLETE_JSON, solutions.get(0));
+        assertEquals(TestData.SUDOKU_COMPLETE_STRING, solutions.get(0));
     }
 
     @Test
